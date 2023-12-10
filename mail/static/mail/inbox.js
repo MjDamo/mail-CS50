@@ -154,9 +154,5 @@ function view_email(id) {
 
     document.querySelector('#email-detail').append(arc_btn);
     document.querySelector('#email-detail').append(rpl_btn);
-
-    // '<h6>From: ' + email.sender + '</h6>' +
-    // '<h4>Subject: ' + email.subject + '</h4>' +
-    // '<h6>Time: ' + email.timestamp + '</h6>';
   });
 }
