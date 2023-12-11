@@ -48,12 +48,33 @@ function load_mailbox(mailbox) {
       console.log(email);
       const emailElement = document.createElement('div');
       emailElement.innerHTML =
+          '<div id="view-body">' +
           '<table class="table">' +
           '<td>From: ' + email.sender + '</td>' +
           '<td>Subject: ' + email.subject + '</td>' +
           '<td>Time: ' + email.timestamp + '</td>' +
-          '</table>';
-      emailElement.addEventListener('click', function() {
+          '</table></div>' +
+          '<div id="arc-btn"></div>';
+
+      // Archive button
+      const arc_btn = document.createElement('button');
+      arc_btn.innerHTML = email.archived ? "Unarchived" : "Archive";
+      arc_btn.className = email.archived ? 'btn btn-success' : 'btn btn-danger';
+      arc_btn.style = "margin-right: 10px"
+      arc_btn.addEventListener('click', function() {
+        fetch(`/emails/${email.id}`, {
+          method: 'PUT',
+          body: JSON.stringify({
+            archived: !email.archived
+          })
+        }).then(r => {load_mailbox('inbox')});
+      });
+      const userName = document.querySelector(".user-name")
+      if (email.sender !== userName.innerHTML){
+        emailElement.querySelector("#arc-btn").append(arc_btn);
+      }
+
+      emailElement.querySelector('#view-body').addEventListener('click', function() {
         view_email(email.id);
       });
       // list style
@@ -126,20 +147,6 @@ function view_email(id) {
         '<p>' + email.body + '</p>' +
         '</div>'
 
-    // Archive button
-    const arc_btn = document.createElement('button');
-    arc_btn.innerHTML = email.archived ? "Unarchived" : "Archive";
-    arc_btn.className = email.archived ? 'btn btn-success p-5' : 'btn btn-danger';
-    arc_btn.style = "margin-right: 10px"
-    arc_btn.addEventListener('click', function() {
-      console.log('This element has been clicked!')
-      fetch(`/emails/${email.id}`, {
-        method: 'PUT',
-        body: JSON.stringify({
-          archived: !email.archived
-        })
-      }).then(r => {load_mailbox('archive')});
-    });
     // Reply button
     const rpl_btn = document.createElement('button');
     rpl_btn.innerHTML = "Reply";
@@ -155,7 +162,6 @@ function view_email(id) {
       document.querySelector('#compose-body').value = 'On ' + email.timestamp + " " + email.sender + " wrote: " + email.body + "\n\n";
     });
 
-    document.querySelector('#email-detail').append(arc_btn);
     document.querySelector('#email-detail').append(rpl_btn);
   });
 }

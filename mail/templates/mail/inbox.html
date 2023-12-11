@@ -4,7 +4,8 @@
 {% block body %}
     <div class="wrapper">
         <div class="form-mail-signin" >
-            <h2><img src="../../static/icon/logo.png" alt="" height="50px">   {{ request.user.email }}</h2>
+            <img src="../../static/icon/logo.png" alt="" height="50px">
+            <h2 class="user-name">{{ request.user.email }}</h2>
             {% if message %}
                 <div style="background-color: rgba(255,0,0,0.34); text-align: center">{{ message }}</div>
                 <br>
