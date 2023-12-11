@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('#sent').addEventListener('click', () => load_mailbox('sent'));
   document.querySelector('#archived').addEventListener('click', () => load_mailbox('archive'));
   document.querySelector('#compose').addEventListener('click', compose_email);
-
   // Submit compose-form Listener
   document.querySelector('#compose-form').addEventListener('submit', send_email);
 
@@ -85,7 +84,6 @@ function load_mailbox(mailbox) {
       }else{
         emailElement.style.backgroundColor = "#D6D2D2"
       }
-
       document.querySelector('#emails-view').append(emailElement);
     })
   });
@@ -144,7 +142,7 @@ function view_email(id) {
         '<p><strong>To: </strong>' + email.recipients + '</p>' +
         '<p><strong>Subject: </strong>' + email.subject + '</p>' +
         '<p><strong>Timestamp: </strong>' + email.timestamp + '</p><hr>' +
-        '<p>' + email.body + '</p>' +
+        '<pre>' + email.body + '</pre>' +
         '</div>'
 
     // Reply button
@@ -159,9 +157,9 @@ function view_email(id) {
       compose_email();
       document.querySelector('#compose-recipients').value = email.sender;
       document.querySelector('#compose-subject').value = new_subject;
-      document.querySelector('#compose-body').value = 'On ' + email.timestamp + " " + email.sender + " wrote: " + email.body + "\n\n";
+      document.querySelector('#compose-body').value = 'On ' + email.timestamp + " " + email.sender +
+          " wrote: " + email.body + "\n----------------------------------------------------------------\n";
     });
-
     document.querySelector('#email-detail').append(rpl_btn);
   });
 }
