@@ -125,17 +125,12 @@ function view_email(id) {
         '<p><strong>Timestamp: </strong>' + email.timestamp + '</p><hr>' +
         '<p>' + email.body + '</p>' +
         '</div>'
-      // '<ul class="list-group">' +
-      //   '<li class="list-group-item"><strong>From: </strong>' + email.sender + '</li>' +
-      //   '<li class="list-group-item"><strong>To: </strong>' + email.recipients + '</li>' +
-      //   '<li class="list-group-item"><strong>Subject: </strong>' + email.subject + '</li>' +
-      //   '<li class="list-group-item"><strong>Timestamp: </strong>' + email.timestamp + '</li>' +
-      //   '<li class="list-group-item">' + email.body + '</li>' +
-      // '</ul>'
+
     // Archive button
     const arc_btn = document.createElement('button');
     arc_btn.innerHTML = email.archived ? "Unarchived" : "Archive";
-    arc_btn.className = email.archived ? 'btn btn-success' : 'btn btn-danger';
+    arc_btn.className = email.archived ? 'btn btn-success p-5' : 'btn btn-danger';
+    arc_btn.style = "margin-right: 10px"
     arc_btn.addEventListener('click', function() {
       console.log('This element has been clicked!')
       fetch(`/emails/${email.id}`, {
