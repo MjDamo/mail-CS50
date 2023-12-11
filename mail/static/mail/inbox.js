@@ -36,7 +36,7 @@ function load_mailbox(mailbox) {
 
 
   // Show the mailbox name
-  document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
+  document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}:</h3><br>`;
 
   // get the email
   fetch(`/emails/${mailbox}`)
@@ -48,11 +48,12 @@ function load_mailbox(mailbox) {
       console.log(email);
       const emailElement = document.createElement('div');
       emailElement.innerHTML =
-          '<h6>From: ' + email.sender + '</h6>' +
-          '<h4>Subject: ' + email.subject + '</h4>' +
-          '<h6>Time: ' + email.timestamp + '</h6>';
+          '<table class="table">' +
+          '<td>From: ' + email.sender + '</td>' +
+          '<td>Subject: ' + email.subject + '</td>' +
+          '<td>Time: ' + email.timestamp + '</td>' +
+          '</table>';
       emailElement.addEventListener('click', function() {
-          // console.log('This element has been clicked!')
         view_email(email.id);
       });
       // list style
@@ -61,7 +62,7 @@ function load_mailbox(mailbox) {
       if (email.read === true){
         emailElement.style.backgroundColor = 'white'
       }else{
-        emailElement.style.backgroundColor = "gray"
+        emailElement.style.backgroundColor = "#D6D2D2"
       }
 
       document.querySelector('#emails-view').append(emailElement);
@@ -117,13 +118,20 @@ function view_email(id) {
 
     // Email details
     document.querySelector('#email-detail').innerHTML =
-      '<ul class="list-group">' +
-        '<li class="list-group-item"><strong>From: </strong>' + email.sender + '</li>' +
-        '<li class="list-group-item"><strong>To: </strong>' + email.recipients + '</li>' +
-        '<li class="list-group-item"><strong>Subject: </strong>' + email.subject + '</li>' +
-        '<li class="list-group-item"><strong>Timestamp: </strong>' + email.timestamp + '</li>' +
-        '<li class="list-group-item">' + email.body + '</li>' +
-        '</ul>'
+        '<div class="container p-5 my-5 border">' +
+        '<p><strong>From: </strong>' + email.sender + '</p>' +
+        '<p><strong>To: </strong>' + email.recipients + '</p>' +
+        '<p><strong>Subject: </strong>' + email.subject + '</p>' +
+        '<p><strong>Timestamp: </strong>' + email.timestamp + '</p><hr>' +
+        '<p>' + email.body + '</p>' +
+        '</div>'
+      // '<ul class="list-group">' +
+      //   '<li class="list-group-item"><strong>From: </strong>' + email.sender + '</li>' +
+      //   '<li class="list-group-item"><strong>To: </strong>' + email.recipients + '</li>' +
+      //   '<li class="list-group-item"><strong>Subject: </strong>' + email.subject + '</li>' +
+      //   '<li class="list-group-item"><strong>Timestamp: </strong>' + email.timestamp + '</li>' +
+      //   '<li class="list-group-item">' + email.body + '</li>' +
+      // '</ul>'
     // Archive button
     const arc_btn = document.createElement('button');
     arc_btn.innerHTML = email.archived ? "Unarchived" : "Archive";
